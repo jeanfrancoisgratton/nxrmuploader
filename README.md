@@ -14,7 +14,7 @@ Once that file established, you can select the file to upload, and where to uplo
 
 A typical JSON-based config file looks like this:
 
-'''json
+```json
 {
 "YUM": [
 {
@@ -45,4 +45,4 @@ A typical JSON-based config file looks like this:
 }
 ]
 }
-'''
+```
