@@ -22,8 +22,9 @@ type Repository struct {
 }
 
 type RepositoryInfo struct {
-	YUM []Repository `json:"YUM"`
-	APT []Repository `json:"APT"`
+	YUM []Repository `json:"DNF-YUM"`
+	APT []Repository `json:"DEB-APT"`
+	//APK []Repository `json:"ALPINE-APK"`
 }
 
 // Load the JSON environment file in the user's .config/certificatemanager directory, and store it into a data type (struct)
