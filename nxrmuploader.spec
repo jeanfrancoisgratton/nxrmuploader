@@ -5,7 +5,7 @@
 %define _version 1.00.00
 %define _rel 0
 %define _arch x86_64
-%define _binaryname nxrmuploader
+%define _binaryname uploadNxRM
 
 Name:       "nxrmuploader"
 Version:    %{_version}

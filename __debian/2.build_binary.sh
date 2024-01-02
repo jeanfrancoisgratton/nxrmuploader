@@ -10,9 +10,9 @@ done
 
 echo "Building binary from source"
 cd ../src
-go build -o ../__debian/${PKGDIR}/opt/bin/nxrmuploader .
-strip ../__debian/${PKGDIR}/opt/bin/nxrmuploader
-sudo chown 0:0 ../__debian/${PKGDIR}/opt/bin/nxrmuploader
+go build -o ../__debian/${PKGDIR}/opt/bin/uploadNxRM .
+strip ../__debian/${PKGDIR}/opt/bin/uploadNxRM
+sudo chown 0:0 ../__debian/${PKGDIR}/opt/bin/uploadNxRM
 
 echo "Binary built. Now packaging..."
 cd ../__debian/
