@@ -33,7 +33,8 @@ func ListEnvironments(envdir string) error {
 	}
 
 	for _, info := range fileInfos {
-		if !info.IsDir() && strings.HasSuffix(info.Name(), ".json") && !strings.HasPrefix(info.Name(), "sample") {
+		//if !info.IsDir() && strings.HasSuffix(info.Name(), ".json") && !strings.HasPrefix(info.Name(), "sample") {
+		if !info.IsDir() && strings.HasSuffix(info.Name(), ".json") {
 			finfo = append(finfo, info)
 		}
 	}
