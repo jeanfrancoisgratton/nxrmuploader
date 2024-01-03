@@ -1,13 +1,13 @@
 %define debug_package   %{nil}
 %define _build_id_links none
-%define _name "nxrmuploader"
+%define _name nxrmuploader
 %define _prefix /opt
 %define _version 1.00.00
 %define _rel 0
 %define _arch x86_64
 %define _binaryname uploadNxRM
 
-Name:       "nxrmuploader"
+Name:       nxrmuploader
 Version:    %{_version}
 Release:    %{_rel}
 Summary:    NxRM binary package uploader
