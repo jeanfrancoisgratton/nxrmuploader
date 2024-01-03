@@ -46,3 +46,22 @@ A typical JSON-based config file looks like this:
 ]
 }
 ```
+**IMPORTANT NOTE**
+
+
+As of version 1.00.00, you will need to create a sample file with `env create $FILENAME`. $FILENAME will be disregarded and a sample.json file will be created in $HOME/.config/nxrmuploader/
+
+You will need to edit it according to your needs, and rename it `defaultEnv.json`. In future versions, the capability to create your file will be added.
+
+## How to use
+Suppose you have the following files ready to be uploaded :
+
+- mysoftware_1.00.00.deb
+- mysoftware-1.00.00.rpm
+
+You only need to run the tool like this : `nxrmUploader mysoftware_1.00.00.deb mysoftware-1.00.00.rpm` and the software will where to upload the file (based on the extension).
+
+You use the `-i` switch when you need to specify the repository in case you have multiple repos. For instance, in the sample config file, you see multiple RPM and DEB repos; to use the second repo, you would use `-i 1` (the index is zero-based).
+
+**ONE HUGE CAVEAT**
+Whenever using `-i`, be aware that it will use that index for every repo in this session. For instance, if you wanted to use the 3rd repo, using `-i 2` would fetch the 3rd RPM repo, *but also the 3rd DEB repo*.
