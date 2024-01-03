@@ -12,7 +12,7 @@ Version:    %{_version}
 Release:    %{_rel}
 Summary:    NxRM binary package uploader
 
-Group:      
+Group:      DevOps tools
 License:    GPL2.0
 URL:        https://git.famillegratton.net:3000/devops/nxrmuploader
 
@@ -54,3 +54,6 @@ install -Dpm 0755 %{_sourcedir}/%{_binaryname} %{buildroot}%{_bindir}/%{_binaryn
 
 
 %changelog
+* Wed Jan 03 2024 RPM Builder <builder@famillegratton.net> 1.00.00-0
+- new package built with tito
+
