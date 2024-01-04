@@ -20,6 +20,7 @@ func ChangeLog() {
 	fmt.Print(`
 VERSION			DATE			COMMENT
 -------			----			-------
+1.01.00			2024.01.04		better environment handling
 1.00.00			2023.12.31		initial version
 `)
 }

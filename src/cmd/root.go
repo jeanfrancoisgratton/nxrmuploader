@@ -18,7 +18,7 @@ var rootCmd = &cobra.Command{
 	Use:     "uploadNxRM",
 	Short:   "Upload a binary package to a NxRM repository",
 	Long:    "The target repository will be chosen according to the extension of the file to be uploaded.",
-	Version: "1.00.00-0 (2023.12.31)",
+	Version: "1.01.00-0 (2024.01.04)",
 }
 
 var clCmd = &cobra.Command{
