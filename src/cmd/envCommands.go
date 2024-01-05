@@ -63,14 +63,14 @@ var envAddCmd = &cobra.Command{
 	Short:   "Create an environment file",
 	Run: func(cmd *cobra.Command, args []string) {
 		var err error
+		var reponame string
 		if len(args) == 0 {
-			fmt.Println("You need to provide at least one filename")
-			os.Exit(0)
-
+			reponame = "defaultEnv.json"
 		} else {
-			if err = env.AddEnvFile(args[0]); err != nil {
-				fmt.Println(err)
-			}
+			reponame = args[0]
+		}
+		if err = env.AddEnvFile(reponame); err != nil {
+			fmt.Println(err)
 		}
 	},
 }

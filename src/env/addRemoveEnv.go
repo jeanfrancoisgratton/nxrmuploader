@@ -6,7 +6,6 @@
 package env
 
 import (
-	"encoding/json"
 	"fmt"
 	"nxrmuploader/helpers"
 	"os"
@@ -32,58 +31,38 @@ func RemoveEnvFile(envfiles []string) error {
 }
 
 func AddEnvFile(envfile string) error {
-	//var env RepositoryInfo
+	var env RepositoryInfo
 	var err error
 
-	cfgDir := filepath.Join(os.Getenv("HOME"), ".config", "nxrmuploader")
-	fmt.Printf("%s: currently we're only creating a sample file in %s\n",
-		helpers.Yellow("PLEASE NOTE"), cfgDir)
-
-	return createSampleFiles(cfgDir)
-
-	//if !strings.HasSuffix(envfile, ".json") {
-	//	envfile += ".json"
-	//}
-	//
-	//if env, err = prompt4EnvironmentValues(); err != nil {
-	//	return err
-	//} else {
-	//	err = env.SaveEnvironmentFile(envfile)
-	//}
-	return err
-}
-
-func prompt4EnvironmentValues() (RepositoryInfo, error) {
-	//var env RepositoryInfo
-	return RepositoryInfo{}, nil
-}
-
-func createSampleFiles(configdir string) error {
-	var yum, apt, apk []Repository
-	//var repos RepositoryInfo
-
-	yum = append(yum, Repository{Name: "Yum repo 1", URL: "https://nexus/repo/yum1", Username: "yum_repo_user1", Password: "yum_repo_passwd1"})
-	yum = append(yum, Repository{Name: "Yum repo 2", URL: "https://nexus/repo/yum2", Username: "yum_repo_user2", Password: "yum_repo_passwd2"})
-	apt = append(apt, Repository{Name: "Apt repo 1", URL: "https://nexus/repo/apt1", Username: "apt_repo_user1", Password: "apt_repo_passwd1"})
-	apt = append(apt, Repository{Name: "Apt repo 2", URL: "https://nexus/repo/apt2", Username: "apt_repo_user2", Password: "apt_repo_passwd2"})
-	apt = append(apt, Repository{Name: "Apt repo 3", URL: "https://nexus/repo/apt3", Username: "apt_repo_user3", Password: "apt_repo_passwd3"})
-	apk = append(apk, Repository{Name: "Apk repo 1", URL: "https://nexus/repo/apk1", Username: "apl_repo_user1", Password: "apk_repo_passwd1"})
-	//repos := RepositoryInfo{RH: yum, DEBIAN: apt, ALPINE: apk}
-	repos := RepositoryInfo{RH: yum, DEBIAN: apt}
-
-	file, err := os.Create(filepath.Join(configdir, "sample.json"))
-	if err != nil {
-		return err
+	if envfile == "" {
+		envfile = EnvConfigFile
 	}
-	defer file.Close()
-
-	jsonData, err := json.MarshalIndent(repos, "", "  ")
-	if err != nil {
-		return err
+	if !strings.HasSuffix(envfile, ".json") {
+		envfile += ".json"
 	}
 
-	if _, err := file.Write(jsonData); err != nil {
+	env = prompt4EnvironmentValues()
+
+	if err = env.SaveEnvironmentFile(envfile); err != nil {
 		return err
 	}
 	return nil
+}
+
+func prompt4EnvironmentValues() RepositoryInfo {
+	var env RepositoryInfo
+	var YUM, APT []Repository
+
+	// Fetch YUM repo(s) info
+	fmt.Printf("%s\n", helpers.White("YUM repositories"))
+	YUM = fetchRepoInfo()
+
+	// Fetch APT repo(s) info
+	fmt.Printf("%s\n", helpers.White("APT repositories"))
+	APT = fetchRepoInfo()
+
+	// We now add those repos into the super-struct
+	env.RH = YUM
+	env.DEBIAN = APT
+	return env
 }

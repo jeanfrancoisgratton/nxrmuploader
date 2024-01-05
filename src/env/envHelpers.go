@@ -6,7 +6,10 @@
 package env
 
 import (
+	"bufio"
 	"encoding/json"
+	"fmt"
+	"nxrmuploader/helpers"
 	"os"
 	"path/filepath"
 	"strings"
@@ -61,4 +64,31 @@ func (e RepositoryInfo) SaveEnvironmentFile(outputfile string) error {
 	err = os.WriteFile(rcFile, jStream, 0600)
 
 	return err
+}
+
+func fetchRepoInfo() []Repository {
+	var repository []Repository
+
+	for {
+		var repo Repository
+		repo.Name = getStringVal("Please enter the friendly repo name (ENTER to quit): ")
+		if repo.Name == "" {
+			break
+		}
+		repo.URL = getStringVal("Please enter the repo URL: ")
+		repo.Username = getStringVal("Please enter the username needed to login: ")
+		repo.Password = helpers.EncodeString(helpers.GetPassword("Please enter that user's password: "))
+
+		repository = append(repository, repo)
+	}
+
+	return repository
+}
+
+func getStringVal(prompt string) string {
+	fmt.Print(prompt)
+	inputVal := bufio.NewReader(os.Stdin)
+	input, _ := inputVal.ReadString('\n')
+
+	return strings.TrimSpace(input)
 }

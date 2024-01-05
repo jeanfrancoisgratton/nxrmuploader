@@ -32,11 +32,11 @@ func Upload(packages []string) error {
 		if strings.HasSuffix(pkg, strings.ToLower(".deb")) {
 			url = repoInfo.DEBIAN[IndexNumber].URL
 			user = repoInfo.DEBIAN[IndexNumber].Username
-			passwd = repoInfo.DEBIAN[IndexNumber].Password
+			passwd = helpers.DecodeString(repoInfo.DEBIAN[IndexNumber].Password)
 		} else {
 			url = repoInfo.RH[IndexNumber].URL
-			user = repoInfo.DEBIAN[IndexNumber].Username
-			passwd = repoInfo.DEBIAN[IndexNumber].Password
+			user = repoInfo.RH[IndexNumber].Username
+			passwd = helpers.DecodeString(repoInfo.RH[IndexNumber].Password)
 		}
 		if err := uploadFile(pkg, url, user, passwd); err != nil {
 			fmt.Printf("%s\n", helpers.Red(err.Error()))
