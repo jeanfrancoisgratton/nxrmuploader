@@ -54,6 +54,13 @@ install -Dpm 0755 %{_sourcedir}/%{_binaryname} %{buildroot}%{_bindir}/%{_binaryn
 
 
 %changelog
+* Fri Jan 05 2024 RPM Builder <builder@famillegratton.net> 1.01.00-0
+- Doc update to reflect the latest changes (jean-francois@famillegratton.net)
+- Completed passwd encryption and env add (jean-francois@famillegratton.net)
+- Version bump (jean-francois@famillegratton.net)
+- APK build fix (builder@famillegratton.net)
+- Fixed perms on multiple files (builder@famillegratton.net)
+
 * Wed Jan 03 2024 RPM Builder <builder@famillegratton.net> 1.00.00-0
 - new package built with tito
 
