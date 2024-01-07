@@ -51,14 +51,20 @@ var upCmd = &cobra.Command{
 				apkPkgs = append(apkPkgs, strings.ToLower(argument))
 			}
 		}
-		if err := exec.Upload(debianPkgs); err != nil {
-			fmt.Println(err)
+		if len(debianPkgs) > 0 {
+			if err := exec.Upload(debianPkgs); err != nil {
+				fmt.Println(err)
+			}
 		}
-		if err := exec.Upload(rhPkgs); err != nil {
-			fmt.Println(err)
+		if len(rhPkgs) > 0 {
+			if err := exec.Upload(rhPkgs); err != nil {
+				fmt.Println(err)
+			}
 		}
-		if err := exec.Upload(apkPkgs); err != nil {
-			fmt.Println(err)
+		if len(apkPkgs) > 0 {
+			if err := exec.Upload(apkPkgs); err != nil {
+				fmt.Println(err)
+			}
 		}
 	},
 }

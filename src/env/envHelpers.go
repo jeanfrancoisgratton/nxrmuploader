@@ -76,6 +76,9 @@ func fetchRepoInfo() []Repository {
 			break
 		}
 		repo.URL = getStringVal("Please enter the repo URL: ")
+		if !strings.HasSuffix(repo.URL, "/") {
+			repo.URL += "/"
+		}
 		repo.Username = getStringVal("Please enter the username needed to login: ")
 		repo.Password = helpers.EncodeString(helpers.GetPassword("Please enter that user's password: "))
 

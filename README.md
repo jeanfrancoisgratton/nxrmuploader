@@ -19,13 +19,13 @@ A typical JSON-based config file looks like this:
 "YUM": [
 {
 "name": "YUM Repo 1",
-"url": "https://nexus.example.com/repository/yum-repo1",
+"url": "https://nexus.example.com/repository/yum-repo1/",
 "username": "yum_user1",
 "password": "yum_password1"
 },
 {
 "name": "YUM Repo 2",
-"url": "https://nexus.example.com/repository/yum-repo2",
+"url": "https://nexus.example.com/repository/yum-repo2/",
 "username": "yum_user2",
 "password": "yum_password2"
 }
@@ -33,13 +33,13 @@ A typical JSON-based config file looks like this:
 "APT": [
 {
 "name": "APT Repo 1",
-"url": "https://nexus.example.com/repository/apt-repo1",
+"url": "https://nexus.example.com/repository/apt-repo1/",
 "username": "apt_user1",
 "password": "apt_password1"
 },
 {
 "name": "APT Repo 2",
-"url": "https://nexus.example.com/repository/apt-repo2",
+"url": "https://nexus.example.com/repository/apt-repo2/",
 "username": "apt_user2",
 "password": "apt_password2"
 }
