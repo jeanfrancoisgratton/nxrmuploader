@@ -7,5 +7,5 @@ package exec
 
 // This struct emulates curl -F flag
 type CurlFflags struct {
-	fFlagVar, fFlagVal string
+	FflagVar, FflagVal string
 }
