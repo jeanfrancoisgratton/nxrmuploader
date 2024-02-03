@@ -2,7 +2,7 @@
 # Packager: Package builder <builder@famillegratton.net>
 pkgname=nxrmuploader
 pkgver=1.50.00
-pkgrel=0
+pkgrel=1
 pkgdir=/data/packages
 builddir="$startdir/src/BUILD"
 pkgdesc="NxRM binary package uploader"
