@@ -1,5 +1,5 @@
 Package: nxrmuploader
-Version: 1.50.00-2
+Version: 1.50.00-3
 Architecture: amd64
 Maintainer: J.F.Gratton <jean-francois@famillegratton.net>
 Description: NxRM binary package uploader

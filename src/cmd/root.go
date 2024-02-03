@@ -15,10 +15,10 @@ import (
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
-	Use:     "uploadNxRM",
+	Use:     "nxrmuploader",
 	Short:   "Upload a binary package to a NxRM repository",
 	Long:    "The target repository will be chosen according to the extension of the file to be uploaded.",
-	Version: "1.50.00-0 (2024.02.02)",
+	Version: "1.50.00-3 (2024.02.02)",
 }
 
 var clCmd = &cobra.Command{

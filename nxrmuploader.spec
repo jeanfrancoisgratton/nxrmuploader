@@ -3,7 +3,7 @@
 %define _name nxrmuploader
 %define _prefix /opt
 %define _version 1.50.00
-%define _rel 2
+%define _rel 3
 %define _arch x86_64
 %define _binaryname nxrmuploader
 
@@ -54,7 +54,7 @@ install -Dpm 0755 %{_sourcedir}/%{_binaryname} %{buildroot}%{_bindir}/%{_binaryn
 %post
 cd /opt/bin
 sudo chgrp -R devops .
-sudo chmod 775 /opt/bin/uploadNxRM
+sudo chmod 775 /opt/bin/nxrmuploader
 
 %preun
 
