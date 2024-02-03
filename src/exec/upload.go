@@ -77,7 +77,8 @@ func uploadFile(pkg, url, user, passwd string) error {
 	if err != nil {
 		return err
 	}
-	req, err := http.NewRequest("POST", fqdn+"/service/rest/v1/components?"+endpoint+"/", body)
+	targetURL := fqdn + "/service/rest/v1/components?repository=" + endpoint
+	req, err := http.NewRequest("POST", targetURL, body)
 	if err != nil {
 		return err
 	}

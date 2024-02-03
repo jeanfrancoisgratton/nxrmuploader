@@ -22,9 +22,6 @@ func parseURL(fullURL string) (string, string, error) {
 	}
 
 	fqdn := parsed.Scheme + "://" + parsed.Host
-	if parsed.Port() != "" {
-		fqdn += ":" + parsed.Port()
-	}
 	endpoint := path.Base(parsed.Path)
 
 	return fqdn, endpoint, nil

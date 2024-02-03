@@ -17,33 +17,33 @@ A typical JSON-based config file looks like this:
 ```json
 {
 "YUM": [
-{
-"name": "YUM Repo 1",
-"url": "https://nexus.example.com/repository/yum-repo1/",
-"username": "yum_user1",
-"password": "yum_password1"
-},
-{
-"name": "YUM Repo 2",
-"url": "https://nexus.example.com/repository/yum-repo2/",
-"username": "yum_user2",
-"password": "yum_password2"
-}
-],
+    {
+      "name": "YUM Repo 1",
+      "url": "https://nexus.example.com/repository/yum-repo1/",
+      "username": "yum_user1",
+      "password": "yum_password1"
+    },
+    {
+      "name": "YUM Repo 2",
+      "url": "https://nexus.example.com/repository/yum-repo2/",
+      "username": "yum_user2",
+      "password": "yum_password2"
+    }
+  ],
 "APT": [
-{
-"name": "APT Repo 1",
-"url": "https://nexus.example.com/repository/apt-repo1/",
-"username": "apt_user1",
-"password": "apt_password1"
-},
-{
-"name": "APT Repo 2",
-"url": "https://nexus.example.com/repository/apt-repo2/",
-"username": "apt_user2",
-"password": "apt_password2"
-}
-]
+    {
+      "name": "APT Repo 1",
+      "url": "https://nexus.example.com/repository/apt-repo1/",
+      "username": "apt_user1",
+      "password": "apt_password1"
+    },
+    {
+      "name": "APT Repo 2",
+      "url": "https://nexus.example.com/repository/apt-repo2/",
+      "username": "apt_user2",
+      "password": "apt_password2"
+    }
+  ]
 }
 ```
 
@@ -66,5 +66,5 @@ You use the `-i` switch when you need to specify the repository in case you have
 
 Whenever using `-i`, be aware that it will use that index for every repo in this session. For instance, if you wanted to use the 3rd repo, using `-i 2` would fetch the 3rd RPM repo, *but also the 3rd DEB repo*.
 
-If that caveat is too much for your use-case, you can create separate environment files (`env add $FILENAME1`, `env add $FILENAME2`), and then select which environment file to use at runtime with the `-e` flag.
+If that caveat is too much for your use-case, you can create separate environment files (`env add $FILENAME1`, `env add $FILENAME2`), and then select which environment file to use at runtime with the `-e` flag, or run the tool multiple times, one for every index.
 
