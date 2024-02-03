@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-PKGDIR="nxrmuploader-1.01.00-0_amd64"
+PKGDIR="nxrmuploader-1.50.00-0_amd64"
 
 mkdir -p ${PKGDIR}/opt/bin ${PKGDIR}/DEBIAN
 mkdir -p ${PKGDIR}/opt/bin ${PKGDIR}/DEBIAN
@@ -10,9 +10,9 @@ done
 
 echo "Building binary from source"
 cd ../src
-go build -o ../__debian/${PKGDIR}/opt/bin/uploadNxRM .
-strip ../__debian/${PKGDIR}/opt/bin/uploadNxRM
-sudo chown 0:0 ../__debian/${PKGDIR}/opt/bin/uploadNxRM
+go build -o ../__debian/${PKGDIR}/opt/bin/nxrmuploader .
+strip ../__debian/${PKGDIR}/opt/bin/nxrmuploader
+sudo chown 0:0 ../__debian/${PKGDIR}/opt/bin/nxrmuploader
 
 echo "Binary built. Now packaging..."
 cd ../__debian/

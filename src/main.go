@@ -8,6 +8,6 @@ import (
 
 func main() {
 
-	os.Mkdir(filepath.Join(os.Getenv("HOME"), ".config", "nxrmuploader"), os.ModePerm)
+	os.Mkdir(filepath.Join(os.Getenv("HOME"), ".config", "JFG", "nxrmuploader"), os.ModePerm)
 	cmd.Execute()
 }

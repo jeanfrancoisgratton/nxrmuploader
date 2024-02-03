@@ -20,6 +20,7 @@ func ChangeLog() {
 	fmt.Print(`
 VERSION			DATE			COMMENT
 -------			----			-------
+1.50.00			2024.02.02.		Complete rewrite of the upload function
 1.01.00			2024.01.04		better environment handling
 1.00.00			2023.12.31		initial version
 `)

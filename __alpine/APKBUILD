@@ -1,7 +1,7 @@
 # Maintainer: J.F.Gratton <jean-francois@famillegratton.net>
 # Packager: Package builder <builder@famillegratton.net>
 pkgname=nxrmuploader
-pkgver=1.01.00
+pkgver=1.50.00
 pkgrel=0
 pkgdir=/data/packages
 builddir="$startdir/src/BUILD"
@@ -9,10 +9,10 @@ pkgdesc="NxRM binary package uploader"
 url="https://github.com/jeanfrancoisgratton/nxrmuploader"
 arch=x86_64
 license=GPL2
-#depends="gcompat"
-#install="$pkgname.post-install"
+depends="gcompat"
+install="$pkgname.pre-install $pkgname.post-install"
 #source="$pkgname-$pkgver-$pkgrel.tar.bz2::http://localhost/$pkgname-$pkgver-$pkgrel.tar.bz2"
-binaryname=uploadNxRM
+binaryname=nxrmuploader
 
 build() {
 	pwd

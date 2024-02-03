@@ -38,7 +38,7 @@ func LoadEnvironmentFile() (RepositoryInfo, error) {
 	if !strings.HasSuffix(EnvConfigFile, ".json") {
 		EnvConfigFile += ".json"
 	}
-	rcFile := filepath.Join(os.Getenv("HOME"), ".config", "nxrmuploader", EnvConfigFile)
+	rcFile := filepath.Join(os.Getenv("HOME"), ".config", "JFG", "nxrmuploader", EnvConfigFile)
 	jFile, err := os.ReadFile(rcFile)
 	if err != nil {
 		return RepositoryInfo{}, err
@@ -60,7 +60,7 @@ func (e RepositoryInfo) SaveEnvironmentFile(outputfile string) error {
 	if err != nil {
 		return err
 	}
-	rcFile := filepath.Join(os.Getenv("HOME"), ".config", "nxrmuploader", outputfile)
+	rcFile := filepath.Join(os.Getenv("HOME"), ".config", "JFG", "nxrmuploader", outputfile)
 	err = os.WriteFile(rcFile, jStream, 0600)
 
 	return err
@@ -84,7 +84,6 @@ func fetchRepoInfo() []Repository {
 
 		repository = append(repository, repo)
 	}
-
 	return repository
 }
 

@@ -22,7 +22,7 @@ func ListEnvironments(envdir string) error {
 
 	// list environment files
 	if envdir == "" {
-		envdir = filepath.Join(os.Getenv("HOME"), ".config", "nxrmuploader")
+		envdir = filepath.Join(os.Getenv("HOME"), ".config", "JFG", "nxrmuploader")
 	}
 	if dirFH, err = os.Open(envdir); err != nil {
 		return helpers.CustomError{Message: "Unable to read config directory: " + err.Error()}

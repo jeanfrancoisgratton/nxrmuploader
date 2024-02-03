@@ -5,7 +5,25 @@
 
 package exec
 
-// This struct emulates curl -F flag
-type CurlFflags struct {
-	FflagVar, FflagVal string
+import (
+	"fmt"
+	"net/url"
+	"nxrmuploader/helpers"
+	"path"
+)
+
+func parseURL(fullURL string) (string, string, error) {
+	//var url URL
+	parsed, err := url.Parse(fullURL)
+	if err != nil {
+		return "", "", helpers.CustomError{fmt.Sprintf("Unable to parse URL: %s", err)}
+	}
+
+	fqdn := parsed.Scheme + "://" + parsed.Host
+	if parsed.Port() != "" {
+		fqdn += ":" + parsed.Port()
+	}
+	endpoint := path.Base(parsed.Path)
+
+	return fqdn, endpoint, nil
 }

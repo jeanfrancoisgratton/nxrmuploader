@@ -2,10 +2,10 @@
 %define _build_id_links none
 %define _name nxrmuploader
 %define _prefix /opt
-%define _version 1.01.00
+%define _version 1.50.00
 %define _rel 0
 %define _arch x86_64
-%define _binaryname uploadNxRM
+%define _binaryname nxrmuploader
 
 Name:       nxrmuploader
 Version:    %{_version}
@@ -37,12 +37,24 @@ strip %{_sourcedir}/%{_binaryname}
 rm -rf $RPM_BUILD_ROOT
 
 %pre
+if getent group devops > /dev/null; then
+  exit 0
+else
+  if getent group 2500; then
+    groupadd devops
+  else
+    groupadd -g 2500 devops
+  fi
+fi
 exit 0
 
 %install
 install -Dpm 0755 %{_sourcedir}/%{_binaryname} %{buildroot}%{_bindir}/%{_binaryname}
 
 %post
+cd /opt/bin
+sudo chgrp -R devops .
+sudo chmod 775 /opt/bin/uploadNxRM
 
 %preun
 

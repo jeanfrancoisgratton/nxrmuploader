@@ -14,6 +14,7 @@ import (
 	"nxrmuploader/env"
 	"nxrmuploader/helpers"
 	"os"
+	"path"
 	"strings"
 )
 
@@ -33,6 +34,7 @@ func Upload(packages []string) error {
 			url = repoInfo.DEBIAN[IndexNumber].URL
 			user = repoInfo.DEBIAN[IndexNumber].Username
 			passwd = helpers.DecodeString(repoInfo.DEBIAN[IndexNumber].Password)
+
 		} else {
 			url = repoInfo.RH[IndexNumber].URL
 			user = repoInfo.RH[IndexNumber].Username
@@ -46,6 +48,13 @@ func Upload(packages []string) error {
 }
 
 func uploadFile(pkg, url, user, passwd string) error {
+	var fqdn, endpoint string
+	var err error
+
+	if fqdn, endpoint, err = parseURL(url); err != nil {
+		return err
+	}
+
 	file, err := os.Open(pkg)
 	if err != nil {
 		return err
@@ -54,6 +63,9 @@ func uploadFile(pkg, url, user, passwd string) error {
 
 	body := &bytes.Buffer{}
 	writer := multipart.NewWriter(body)
+	if strings.HasSuffix(pkg, strings.ToLower(".deb")) {
+		writer.WriteField("apt.asset", path.Base(pkg))
+	}
 	part, err := writer.CreateFormFile("file", pkg)
 	if err != nil {
 		return err
@@ -67,8 +79,7 @@ func uploadFile(pkg, url, user, passwd string) error {
 	if err != nil {
 		return err
 	}
-
-	req, err := http.NewRequest("POST", url, body)
+	req, err := http.NewRequest("POST", fqdn+"/service/rest/v1/components?"+endpoint+"/", body)
 	if err != nil {
 		return err
 	}
@@ -82,7 +93,8 @@ func uploadFile(pkg, url, user, passwd string) error {
 	}
 	defer resp.Body.Close()
 
-	if resp.StatusCode != http.StatusOK {
+	// Note : Nexus sends an http 204-NoContent when successful, not 200-OK
+	if resp.StatusCode != http.StatusNoContent {
 		return helpers.CustomError{fmt.Sprintf("%s: status: %s\n", helpers.Red("HTTP error"), resp.Status)}
 	}
 	return nil
