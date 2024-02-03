@@ -66,6 +66,9 @@ sudo chmod 775 /opt/bin/uploadNxRM
 
 
 %changelog
+* Fri Feb 02 2024 RPM Builder <builder@famillegratton.net> 1.50.00-1
+- Fixed very minor typo (jean-francois@famillegratton.net)
+
 * Fri Feb 02 2024 RPM Builder <builder@famillegratton.net> 1.50.00-0
 - minor refactoring, removal of un-needed files (jean-
   francois@famillegratton.net)
