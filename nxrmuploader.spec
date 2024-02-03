@@ -66,6 +66,16 @@ sudo chmod 775 /opt/bin/uploadNxRM
 
 
 %changelog
+* Fri Feb 02 2024 RPM Builder <builder@famillegratton.net> 1.50.00-0
+- minor refactoring, removal of un-needed files (jean-
+  francois@famillegratton.net)
+- Rewrote uploadFile(). version bump (jean-francois@famillegratton.net)
+- Make struct members exportable (jean-francois@famillegratton.net)
+- Getting ready to rewrite uploadFile() (jean-francois@famillegratton.net)
+- Sync before branching out (jean-francois@famillegratton.net)
+- Fix arch issue when fetching a new GOLANG version
+  (builder@famillegratton.net)
+
 * Fri Jan 05 2024 RPM Builder <builder@famillegratton.net> 1.01.00-0
 - Doc update to reflect the latest changes (jean-francois@famillegratton.net)
 - Completed passwd encryption and env add (jean-francois@famillegratton.net)
