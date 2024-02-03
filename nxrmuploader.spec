@@ -66,6 +66,11 @@ sudo chmod 775 /opt/bin/nxrmuploader
 
 
 %changelog
+* Sat Feb 03 2024 RPM Builder <builder@famillegratton.net> 1.50.00-3
+- Fixed RPM post-inst script (jean-francois@famillegratton.net)
+- Version bump (jean-francois@famillegratton.net)
+- Doc update, endpoint URL update (jean-francois@famillegratton.net)
+
 * Fri Feb 02 2024 RPM Builder <builder@famillegratton.net> 1.50.00-1
 - Fixed very minor typo (jean-francois@famillegratton.net)
 
