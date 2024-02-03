@@ -12,6 +12,8 @@ import (
 	"path"
 )
 
+var IndexNumber int8
+
 func parseURL(fullURL string) (string, string, error) {
 	//var url URL
 	parsed, err := url.Parse(fullURL)

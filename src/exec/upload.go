@@ -18,8 +18,6 @@ import (
 	"strings"
 )
 
-var IndexNumber int8
-
 func Upload(packages []string) error {
 	var url, user, passwd string
 	var repoInfo env.RepositoryInfo
