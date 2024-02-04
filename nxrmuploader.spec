@@ -2,10 +2,10 @@
 %define _build_id_links none
 %define _name nxrmuploader
 %define _prefix /opt
-%define _version 1.01.00
-%define _rel 0
+%define _version 1.50.00
+%define _rel 3
 %define _arch x86_64
-%define _binaryname uploadNxRM
+%define _binaryname nxrmuploader
 
 Name:       nxrmuploader
 Version:    %{_version}
@@ -37,12 +37,24 @@ strip %{_sourcedir}/%{_binaryname}
 rm -rf $RPM_BUILD_ROOT
 
 %pre
+if getent group devops > /dev/null; then
+  exit 0
+else
+  if getent group 2500; then
+    groupadd devops
+  else
+    groupadd -g 2500 devops
+  fi
+fi
 exit 0
 
 %install
 install -Dpm 0755 %{_sourcedir}/%{_binaryname} %{buildroot}%{_bindir}/%{_binaryname}
 
 %post
+cd /opt/bin
+sudo chgrp -R devops .
+sudo chmod 775 /opt/bin/nxrmuploader
 
 %preun
 
@@ -54,6 +66,24 @@ install -Dpm 0755 %{_sourcedir}/%{_binaryname} %{buildroot}%{_bindir}/%{_binaryn
 
 
 %changelog
+* Sat Feb 03 2024 RPM Builder <builder@famillegratton.net> 1.50.00-3
+- Fixed RPM post-inst script (jean-francois@famillegratton.net)
+- Version bump (jean-francois@famillegratton.net)
+- Doc update, endpoint URL update (jean-francois@famillegratton.net)
+
+* Fri Feb 02 2024 RPM Builder <builder@famillegratton.net> 1.50.00-1
+- Fixed very minor typo (jean-francois@famillegratton.net)
+
+* Fri Feb 02 2024 RPM Builder <builder@famillegratton.net> 1.50.00-0
+- minor refactoring, removal of un-needed files (jean-
+  francois@famillegratton.net)
+- Rewrote uploadFile(). version bump (jean-francois@famillegratton.net)
+- Make struct members exportable (jean-francois@famillegratton.net)
+- Getting ready to rewrite uploadFile() (jean-francois@famillegratton.net)
+- Sync before branching out (jean-francois@famillegratton.net)
+- Fix arch issue when fetching a new GOLANG version
+  (builder@famillegratton.net)
+
 * Fri Jan 05 2024 RPM Builder <builder@famillegratton.net> 1.01.00-0
 - Doc update to reflect the latest changes (jean-francois@famillegratton.net)
 - Completed passwd encryption and env add (jean-francois@famillegratton.net)

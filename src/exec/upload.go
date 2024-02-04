@@ -14,10 +14,9 @@ import (
 	"nxrmuploader/env"
 	"nxrmuploader/helpers"
 	"os"
+	"path"
 	"strings"
 )
-
-var IndexNumber int8
 
 func Upload(packages []string) error {
 	var url, user, passwd string
@@ -33,6 +32,7 @@ func Upload(packages []string) error {
 			url = repoInfo.DEBIAN[IndexNumber].URL
 			user = repoInfo.DEBIAN[IndexNumber].Username
 			passwd = helpers.DecodeString(repoInfo.DEBIAN[IndexNumber].Password)
+
 		} else {
 			url = repoInfo.RH[IndexNumber].URL
 			user = repoInfo.RH[IndexNumber].Username
@@ -46,6 +46,13 @@ func Upload(packages []string) error {
 }
 
 func uploadFile(pkg, url, user, passwd string) error {
+	var fqdn, endpoint string
+	var err error
+
+	if fqdn, endpoint, err = parseURL(url); err != nil {
+		return err
+	}
+
 	file, err := os.Open(pkg)
 	if err != nil {
 		return err
@@ -54,6 +61,10 @@ func uploadFile(pkg, url, user, passwd string) error {
 
 	body := &bytes.Buffer{}
 	writer := multipart.NewWriter(body)
+	if strings.HasSuffix(pkg, strings.ToLower(".deb")) {
+		//keyval:= fmt.Sprintf("apt.asset=%s", path.Base(pkg))
+		writer.WriteField("apt.asset", path.Base(pkg))
+	}
 	part, err := writer.CreateFormFile("file", pkg)
 	if err != nil {
 		return err
@@ -67,8 +78,8 @@ func uploadFile(pkg, url, user, passwd string) error {
 	if err != nil {
 		return err
 	}
-
-	req, err := http.NewRequest("POST", url, body)
+	targetURL := fqdn + "/service/rest/v1/components?repository=" + endpoint
+	req, err := http.NewRequest("POST", targetURL, body)
 	if err != nil {
 		return err
 	}
@@ -82,69 +93,9 @@ func uploadFile(pkg, url, user, passwd string) error {
 	}
 	defer resp.Body.Close()
 
-	if resp.StatusCode != http.StatusOK {
+	// Note : Nexus sends an http 204-NoContent when successful, not 200-OK
+	if resp.StatusCode != http.StatusNoContent {
 		return helpers.CustomError{fmt.Sprintf("%s: status: %s\n", helpers.Red("HTTP error"), resp.Status)}
 	}
 	return nil
 }
-
-/*
-func uploadFile(repoURL, filePath, myvar1, myval1, myvar2, myval2 string) error {
-    file, err := os.Open(filePath)
-    if err != nil {
-        return err
-    }
-    defer file.Close()
-
-    body := &bytes.Buffer{}
-    writer := multipart.NewWriter(body)
-
-    // Add form fields
-    _ = writer.WriteField(myvar1, myval1)
-    _ = writer.WriteField(myvar2, myval2)
-
-    // Create a form field for the file
-    part, err := writer.CreateFormFile("file", filepath.Base(filePath))
-    if err != nil {
-        return err
-    }
-
-    // Copy file content to the part
-    _, err = io.Copy(part, file)
-    if err != nil {
-        return err
-    }
-
-    // Close the multipart writer before sending the request
-    err = writer.Close()
-    if err != nil {
-        return err
-    }
-
-    // Create HTTP request
-    req, err := http.NewRequest("POST", repoURL, body)
-    if err != nil {
-        return err
-    }
-    req.Header.Set("Content-Type", writer.FormDataContentType())
-
-    // Replace 'username' and 'password' with your Nexus credentials
-    req.SetBasicAuth("username", "password")
-
-    // Perform the request
-    client := &http.Client{}
-    resp, err := client.Do(req)
-    if err != nil {
-        return err
-    }
-    defer resp.Body.Close()
-
-    if resp.StatusCode != http.StatusOK {
-        return fmt.Errorf("unexpected status: %s", resp.Status)
-    }
-
-    return nil
-}
-*/
-
-// also, see https://help.sonatype.com/repomanager3/integrations/rest-and-integration-api/components-api?&_ga=2.260381966.209045506.1704648175-1169652860.1704484669#ComponentsAPI-UploadComponent

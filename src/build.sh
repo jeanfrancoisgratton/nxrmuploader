@@ -3,7 +3,7 @@
 
 
 if [ "$#" -gt 0 ]; then
-    BINARY=uploadNxRM
+    BINARY=nxrmuploader
 fi
 
 go build -o /opt/bin/${BINARY} .

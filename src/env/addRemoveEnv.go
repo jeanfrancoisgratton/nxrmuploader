@@ -19,10 +19,10 @@ func RemoveEnvFile(envfiles []string) error {
 		if !strings.HasSuffix(envfile, ".json") {
 			envfile += ".json"
 		}
-		if err := os.Remove(filepath.Join(os.Getenv("HOME"), ".config", "nxrmuploader", envfile)); err != nil {
+		if err := os.Remove(filepath.Join(os.Getenv("HOME"), ".config", "JFG", "nxrmuploader", envfile)); err != nil {
 			return err
 		}
-		if err := os.Remove(filepath.Join(os.Getenv("HOME"), ".config", "certificatemanager", envfile)); err != nil {
+		if err := os.Remove(filepath.Join(os.Getenv("HOME"), ".config", "JFG", "nxrmuploader", envfile)); err != nil {
 			return err
 		}
 		fmt.Printf("%s removed succesfully\n", envfile)
