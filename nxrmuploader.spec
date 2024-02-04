@@ -66,6 +66,9 @@ sudo chmod 775 /opt/bin/nxrmuploader
 
 
 %changelog
+* Sun Feb 04 2024 RPM Builder <builder@famillegratton.net>
+- Hopefully fixed REST API calls (jean-francois@famillegratton.net)
+
 * Sat Feb 03 2024 RPM Builder <builder@famillegratton.net> 1.50.00-3
 - Fixed RPM post-inst script (jean-francois@famillegratton.net)
 - Version bump (jean-francois@famillegratton.net)
