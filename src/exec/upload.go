@@ -62,8 +62,12 @@ func uploadFile(pkg, url, user, passwd string) error {
 	body := &bytes.Buffer{}
 	writer := multipart.NewWriter(body)
 	if strings.HasSuffix(pkg, strings.ToLower(".deb")) {
-		//keyval:= fmt.Sprintf("apt.asset=%s", path.Base(pkg))
-		writer.WriteField("apt.asset", path.Base(pkg))
+		keyval := fmt.Sprintf("@%s;type=application/vnd.debian.binary-package", path.Base(pkg))
+		writer.WriteField("apt.asset", keyval)
+	} else {
+		keyval := fmt.Sprintf("@%s;type=application/x-rpm", path.Base(pkg))
+		writer.WriteField("yum.asset", keyval)
+		writer.WriteField("yum.asset.filename", path.Base(pkg))
 	}
 	part, err := writer.CreateFormFile("file", pkg)
 	if err != nil {
