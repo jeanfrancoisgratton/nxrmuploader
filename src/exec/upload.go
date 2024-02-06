@@ -62,12 +62,14 @@ func uploadFile(pkg, url, user, passwd string) error {
 	body := &bytes.Buffer{}
 	writer := multipart.NewWriter(body)
 	if strings.HasSuffix(pkg, strings.ToLower(".deb")) {
-		keyval := fmt.Sprintf("@%s;type=application/vnd.debian.binary-package", path.Base(pkg))
+		keyval := fmt.Sprintf("@%s", path.Base(pkg))
 		writer.WriteField("apt.asset", keyval)
+		writer.WriteField("type", "application/vnd.debian.binary-package")
 	} else {
-		keyval := fmt.Sprintf("@%s;type=application/x-rpm", path.Base(pkg))
+		keyval := fmt.Sprintf("@%s", path.Base(pkg))
 		writer.WriteField("yum.asset", keyval)
 		writer.WriteField("yum.asset.filename", path.Base(pkg))
+		writer.WriteField("type", "application/x-rpm")
 	}
 	part, err := writer.CreateFormFile("file", pkg)
 	if err != nil {
@@ -99,7 +101,22 @@ func uploadFile(pkg, url, user, passwd string) error {
 
 	// Note : Nexus sends an http 204-NoContent when successful, not 200-OK
 	if resp.StatusCode != http.StatusNoContent {
-		return helpers.CustomError{fmt.Sprintf("%s: status: %s\n", helpers.Red("HTTP error"), resp.Status)}
+		return helpers.CustomError{fmt.Sprintf("%s: %s %s\n", helpers.Red("HTTP error"), helpers.Normal("status="), helpers.Normal(resp.Status))}
 	}
 	return nil
 }
+
+/*
+cmd := exec.Command("keytool", "-importkeystore", "-srcstorepass", certPasswd,
+		"-deststorepass", certPasswd,
+		"-destkeystore", filepath.Join(e.ServerCertsDir, "java", c.CertificateName+".jks"),
+		"-srckeystore", filepath.Join(e.ServerCertsDir, "java", c.CertificateName+".p12"),
+		"-srcstoretype", "PKCS12")
+
+	cmd.Stdout = os.Stdout
+	cmd.Stderr = os.Stderr
+
+	if err := cmd.Run(); err != nil {
+		return helpers.CustomError{Message: "Keytool command failed: " + err.Error()}
+	}
+*/
