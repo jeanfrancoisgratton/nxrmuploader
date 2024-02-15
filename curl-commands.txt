@@ -1,0 +1,10 @@
+DEB:
+
+curl -X 'POST' 'https://nexus:1808/service/rest/v1/components?repository=aptLocal' -H 'accept: application/json' -H 'Content-Type: multipart/form-data' -F 'apt.asset=@finddupes-0.01.00-0_amd64.deb;type=application/vnd.debian.binary-package' -u jfgratton:jiefg000
+
+
+RPM:
+curl -X 'POST' 'https://nexus:1808/service/rest/v1/components?repository=dnfLocal' -H 'accept: application/json' -H 'Content-Type: multipart/form-data' -F 'yum.asset=@finddupes-0.01.00-0.x86_64.rpm;type=application/x-rpm' -F 'yum.asset.filename=finddupes-0.01.00-0.x86_64.rpm' -u jfgratton:jiefg000
+
+
+NOTE: for some reason, we need to be in the same directory as the binary package resides when uploading.
