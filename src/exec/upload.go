@@ -14,9 +14,12 @@ import (
 	"nxrmuploader/env"
 	"nxrmuploader/helpers"
 	"os"
+	"os/exec"
 	"path"
 	"strings"
 )
+
+const Headers = "-H 'accept: application/json' -H 'Content-Type: multipart/form-data'"
 
 func Upload(packages []string) error {
 	var url, user, passwd string
@@ -46,6 +49,39 @@ func Upload(packages []string) error {
 }
 
 func uploadFile(pkg, url, user, passwd string) error {
+	var fqdn, endpoint string
+	var err error
+
+	if fqdn, endpoint, err = parseURL(url); err != nil {
+		return err
+	}
+
+	// This is not a "by the book use of exec.Command in the sense that I pass *most of the* arguments in a
+	// Single string, here, instead of using params to Command().
+	// It's my quick and dirty way of doing things, which is not "incorrect", stricly speaking
+	usernamePassword := fmt.Sprintf(" -X POST -u %s:%s", user, passwd)
+	endpointURL := fmt.Sprintf(" %s/service/rest/v1/components?repository=%s", fqdn, endpoint)
+	var formKeyVal string
+
+	bname := path.Base(pkg)
+	if strings.HasSuffix(pkg, strings.ToLower(".deb")) {
+		formKeyVal = fmt.Sprintf(" -F 'apt.asset=@%s;type=application/vnd.debian.binary-package'", bname)
+	} else {
+		formKeyVal = fmt.Sprintf(" -F 'yum.asset=@%s' -F 'yum.asset.filename=%s'", bname, bname)
+	}
+	//cmd := exec.Command("curl", firstPart, thirdPart)
+	fmt.Printf("curl%s%s%s\n", usernamePassword, formKeyVal, endpointURL)
+	cmd := exec.Command("curl", usernamePassword, formKeyVal, endpointURL)
+
+	cmd.Stdout = os.Stdout
+	cmd.Stderr = os.Stderr
+
+	if err := cmd.Run(); err != nil {
+		return helpers.CustomError{Message: "curl command failed: " + err.Error()}
+	}
+	return nil
+}
+func uploadFile3(pkg, url, user, passwd string) error {
 	var fqdn, endpoint string
 	var err error
 
