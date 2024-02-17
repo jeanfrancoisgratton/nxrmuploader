@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-PKGDIR="nxrmuploader-1.51.00-0_amd64"
+PKGDIR="nxrmuploader-1.55.00-0_amd64"
 
 mkdir -p ${PKGDIR}/opt/bin ${PKGDIR}/DEBIAN
 mkdir -p ${PKGDIR}/opt/bin ${PKGDIR}/DEBIAN

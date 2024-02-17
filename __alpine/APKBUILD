@@ -1,7 +1,7 @@
 # Maintainer: J.F.Gratton <jean-francois@famillegratton.net>
 # Packager: Package builder <builder@famillegratton.net>
 pkgname=nxrmuploader
-pkgver=1.51.00
+pkgver=1.55.00
 pkgrel=0
 pkgdir=/data/packages
 builddir="$startdir/src/BUILD"
