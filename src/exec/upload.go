@@ -19,8 +19,6 @@ import (
 	"strings"
 )
 
-const Headers = "-H 'accept: application/json' -H 'Content-Type: multipart/form-data'"
-
 func Upload(packages []string) error {
 	var url, user, passwd string
 	var repoInfo env.RepositoryInfo
@@ -48,6 +46,9 @@ func Upload(packages []string) error {
 	return nil
 }
 
+// curl -X 'POST' 'https://nexus:1808/service/rest/v1/components?repository=aptLocal' -H 'accept: application/json' -H 'Content-Type: multipart/form-data' -F 'apt.asset=@finddupes-0.01.00-0_amd64.deb;type=application/vnd.debian.binary-package' -u jfgratton:jiefg000
+// curl -X 'POST' 'https://nexus:1808/service/rest/v1/components?repository=dnfLocal' -H 'accept: application/json' -H 'Content-Type: multipart/form-data' -F 'yum.asset=@finddupes-0.01.00-0.x86_64.rpm;type=application/x-rpm' -F 'yum.asset.filename=finddupes-0.01.00-0.x86_64.rpm' -u jfgratton:jiefg000
+
 func uploadFile(pkg, url, user, passwd string) error {
 	var fqdn, endpoint string
 	var err error
@@ -59,20 +60,18 @@ func uploadFile(pkg, url, user, passwd string) error {
 	// This is not a "by the book use of exec.Command in the sense that I pass *most of the* arguments in a
 	// Single string, here, instead of using params to Command().
 	// It's my quick and dirty way of doing things, which is not "incorrect", stricly speaking
-	usernamePassword := fmt.Sprintf(" -X POST -u %s:%s", user, passwd)
-	endpointURL := fmt.Sprintf(" %s/service/rest/v1/components?repository=%s", fqdn, endpoint)
 	var formKeyVal string
 
-	bname := path.Base(pkg)
+	binaryPackage := path.Base(pkg)
 	if strings.HasSuffix(pkg, strings.ToLower(".deb")) {
-		formKeyVal = fmt.Sprintf(" -F 'apt.asset=@%s;type=application/vnd.debian.binary-package'", bname)
+		formKeyVal = fmt.Sprintf(" -F 'apt.asset=@%s;type=application/vnd.debian.binary-package'", binaryPackage)
 	} else {
-		formKeyVal = fmt.Sprintf(" -F 'yum.asset=@%s' -F 'yum.asset.filename=%s'", bname, bname)
+		formKeyVal = fmt.Sprintf(" -F 'yum.asset=@%s;type=application/x-rpm' -F 'yum.asset.filename=%s'", binaryPackage, binaryPackage)
 	}
-	//cmd := exec.Command("curl", firstPart, thirdPart)
-	fmt.Printf("curl%s%s%s\n", usernamePassword, formKeyVal, endpointURL)
-	cmd := exec.Command("curl", usernamePassword, formKeyVal, endpointURL)
-
+	commandArgs := fmt.Sprintf("-X 'POST' '%s/service/rest/v1/components?repository=%s' -H 'accept: application/json' -H '' %s -u %s:%s",
+		fqdn, endpoint, formKeyVal, user, passwd)
+	os.Chdir(path.Dir(pkg))
+	cmd := exec.Command("curl", commandArgs)
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
 

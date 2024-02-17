@@ -45,7 +45,8 @@ func ListEnvironments(envdir string) error {
 		return err
 	}
 
-	fmt.Printf("Number of environment files: %s\n", helpers.Green(fmt.Sprintf("%d", len(finfo))))
+	fmt.Printf("Found %s environment files in %s\n", helpers.Green(fmt.Sprintf("%d", len(finfo))),
+		helpers.Green(fmt.Sprintf("%s", filepath.Join(os.Getenv("HOME"), ".config", "JFG", "nxrmuploader"))))
 
 	t := table.NewWriter()
 	t.SetOutputMirror(os.Stdout)
